@@ -1,4 +1,4 @@
-package com.qyer.javaapi.resource; /**
+package com.qyer.javaapi.rest.service; /**
  * Created by panqiang on 2017/4/22.
  */
 import javax.ws.rs.*;
@@ -11,7 +11,7 @@ import javax.ws.rs.core.MultivaluedMap;
  * Created by panqiang on 2017/4/22.
  */
 @Path("/bigdata")
-public class APIIndex {
+public class Rest {
 
 
     // This method is called if TEXT_PLAIN is request
@@ -48,7 +48,6 @@ public class APIIndex {
     //@Produces("application/json; charset=UTF-8")
     public String getHeader(@Context HttpHeaders hh) {
         MultivaluedMap<String, String> headerParams = hh.getRequestHeaders();
-
         return headerParams.toString();
     }
     @Path("/getDefaultValue")
