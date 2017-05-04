@@ -1,5 +1,7 @@
 package com.qyer.javaapi.rest.dao;
 
+import com.qyer.javaapi.rest.entity.TestPersonBean;
+
 import java.util.List;
 
 /**
@@ -7,21 +9,21 @@ import java.util.List;
  */
 public interface TestDao {
 
-     List<TestDao> getTestDaos();
+     List<TestPersonBean> getPersons();
     /**
      * Returns a podcast given its id
      *
      * @param id
      * @return
      */
-    public TestDao getPodById(Long id);
+    public TestPersonBean getPersonById(Long id);
 
-    public Long deletePodById(Long id);
+    public Long deletePersonById(Long id);
 
-    public Long createPod(TestDao podcast);
+    public Long createPerson(TestPersonBean tbp);
 
-    public int updatePod(TestDao podcast);
+    public int updatePerson(TestPersonBean tbp);
 
     /** removes all podcasts */
-    public void deletePodcasts();
+    public void deletePersons();
 }

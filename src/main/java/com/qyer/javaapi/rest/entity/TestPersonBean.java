@@ -5,6 +5,7 @@ package com.qyer.javaapi.rest.entity;
  */
 
 import com.oracle.webservices.internal.api.databinding.Databinding;
+import com.sun.tools.corba.se.idl.StringGen;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -12,30 +13,56 @@ import java.io.Serializable;
 @Service
 public class TestPersonBean implements Serializable {
 
-    public TestPersonBean(){}
-    public TestPersonBean(String name,int age,String gender){
-        this.name=name;
-        this.age=age;
-        this.gender=gender;
-    }
-    public static class createBean{
 
+    /*
+    public TestPersonBean(CreateBean cb ){
+        this.ID=cb.ID;
+        this.name=cb.name;
+        this.age=cb.age;
+        this.gender=cb.gender;
     }
-    public static TestPersonBean TestPersonBuild(){
+    //静态内部类创建对象
+    public static class CreateBean{
 
+
+        private String name;
+        private int age;
+        private String gender;
+        private long ID;
+
+        public CreateBean(long ID,String name){
+            this.ID=ID;
+            this.name=name;
+        }
+
+        public  CreateBean setAge(int age){
+            this.age=age;
+            return this;
+        }
+        public CreateBean setGender(String gender){
+            this.gender=gender;
+            return this;
+        }
+
+        public  TestPersonBean buid(){
+            return new TestPersonBean(this);
+        }
     }
 
+*/
     private static final long serialVersionUID=-8039625376076337053L;
-    private String name;
+    private String u_name;
     private String gender;
     private int age;
+    private long ID;
+
 
     public String getName() {
-        return name;
+        return u_name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.u_name = name;
     }
 
     public String getGender() {
@@ -54,8 +81,16 @@ public class TestPersonBean implements Serializable {
         this.age = age;
     }
 
+    public long getID() {
+        return ID;
+    }
+
+    public void setID(long ID) {
+        this.ID = ID;
+    }
+
     @Override
     public String toString() {
-        return this.name+"\t"+this.gender+"\t"+this.age;
+        return this.u_name+"\t"+this.gender+"\t"+this.age;
     }
 }

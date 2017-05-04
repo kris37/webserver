@@ -22,4 +22,5 @@ public class Application extends ResourceConfig{
         // 打印访问日志，便于跟踪调试，正式发布可清除
         register(LoggingFilter.class);
     }
+
 }
