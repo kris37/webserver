@@ -4,14 +4,14 @@ package com.qyer.javaapi.rest.entity;
  * Created by panqiang on 2017/5/2.
  */
 
-import com.oracle.webservices.internal.api.databinding.Databinding;
-import com.sun.tools.corba.se.idl.StringGen;
+
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 
-@Service
-public class TestPersonBean implements Serializable {
+
+
+public class User implements Serializable {
 
 
     /*
@@ -50,47 +50,46 @@ public class TestPersonBean implements Serializable {
     }
 
 */
-    private static final long serialVersionUID=-8039625376076337053L;
-    private String u_name;
-    private String gender;
-    private int age;
-    private long ID;
+    private static final long serialVersionUID = -8039625376076337053L;
+    private String account;
+    private String name;
+    private Integer ID;
 
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
 
     public String getName() {
-        return u_name;
+        return name;
     }
 
     public void setName(String name) {
-        this.u_name = name;
+        this.name = name;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public long getID() {
+    public Integer getID() {
         return ID;
     }
 
-    public void setID(long ID) {
+    public void setID(Integer ID) {
         this.ID = ID;
     }
 
+
+
     @Override
     public String toString() {
-        return this.u_name+"\t"+this.gender+"\t"+this.age;
+        return "User{" +
+                "account='" + account + '\'' +
+                ", name='" + name + '\'' +
+                ", ID=" + ID +
+                '}';
     }
 }
+
+
+

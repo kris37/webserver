@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+.idea/
+bigdata-api.iml
+/javaserver.iml
+/webserver.iml
+/.idea/

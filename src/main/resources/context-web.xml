@@ -2,13 +2,27 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx
-		http://www.springframework.org/schema/tx/spring-tx.xsd">
-    <context:component-scan base-package="com.qyer.javaapi.rest" />
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 配置jdbc properties里读取属性信息 -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="propertyConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
     <!--在xml配置了这个标签后，spring可以自动去扫描base-pack下面或者子包下面的Java文件，
     如果扫描到有@Component @Controller@Service等这些注解的类，则把这些类注册为bean-->
+    <context:component-scan base-package="com.qyer.javaapi.rest" />
+    <!--数据层相关的bean都配置在DataSource.xml里，context-web.xml通过import 引入里面的beans-->
+    <import resource="DataSource.xml" />
 
+
+
+<!--
 
     <tx:annotation-driven transaction-manager="transactionManager" />
     <bean id="transactionManager"
@@ -17,6 +31,7 @@
     </bean>
 
     <import resource="config/druid.xml"/>
+    -->
     <!-- =============== MyBATIS beans configuration ================== -->
 
 <!--

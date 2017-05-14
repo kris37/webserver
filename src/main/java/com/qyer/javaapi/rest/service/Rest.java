@@ -33,15 +33,6 @@ public class Rest {
         return "<html> " + "<title>" + "qyer-bigdata-api" + "</title>"
                 + "<body><h1>" + "qyer-bigdata-api" + "</body></h1>" + "</html> ";
     }
-
-
-    @Path("/getUser/{username}")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getName(@PathParam("username") String username){
-
-        return username;
-    }
     @Path("/getHeaders")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
