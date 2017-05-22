@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+         http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
     <!-- 配置jdbc properties里读取属性信息 -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="propertyConfigurer">
         <property name="locations">
@@ -18,32 +24,56 @@
     如果扫描到有@Component @Controller@Service等这些注解的类，则把这些类注册为bean-->
     <context:component-scan base-package="com.qyer.javaapi.rest" />
     <!--数据层相关的bean都配置在DataSource.xml里，context-web.xml通过import 引入里面的beans-->
-    <import resource="DataSource.xml" />
+    <import resource="DataSources/DataSource.xml" />
+    <import resource="DataSources/DataSource2.xml" />
+     <!--数据库连接池 -->
+    <bean id="dynamicDataSource" class="dynamicDataSource.DataSourceControl">
+        <property name="targetDataSources">
+            <map key-type="java.lang.String">
+                <entry value-ref="dataSourceUser" key="dataSourceUser"/>
+                <entry value-ref="dataSourceCity" key="dataSourceCity"/>
+            </map>
+        </property>
+        <!-- 默认使用DataSource的数据源,必须要配置，不然会启动报错 -->
+        <property name="defaultTargetDataSource" ref="dataSourceUser"/>
+    </bean>
 
-
-
-<!--
-
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <!-- 定义事务管理器 -->
     <bean id="transactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="dynamicDataSource" />
     </bean>
+    <!-- 定义事务策略 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--所有以query开头的方法都是只读的 -->
+            <tx:method name="get*" read-only="true" />
+            <!--其他方法使用默认事务策略 -->
+            <tx:method name="*" />
+        </tx:attributes>
+    </tx:advice>
 
-    <import resource="config/druid.xml"/>
-    -->
-    <!-- =============== MyBATIS beans configuration ================== -->
+    <aop:config>
+        <!--pointcut元素定义一个切入点，execution中的第一个星号 用以匹配方法的返回类型，
+            这里星号表明匹配所有返回类型。 com.abc.dao.*.*(..)表明匹配com.simple.mybatis.service包下的所有类的所有
+            方法 -->
+        <!--<aop:pointcut id="myPointcut" expression="execution(* com.simple.sso.service.*.*(..))" />-->
+        <!--将定义好的事务处理策略应用到上述的切入点 -->
+        <!--<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut" />-->
+    </aop:config>
 
-<!--
+    <!-- 定义Mybatis的SqlSessionFactory -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="configLocation" value="classpath:config/mybatis.xml"/>
+        <!-- 定义数据源 -->
+        <property name="dataSource" ref="dynamicDataSource" />
+        <!-- 指定mybatis全局配置文件 -->
+        <!--指定实体类映射文件，可以指定同时指定某一包以及子包下面的所有配置文件，mapperLocations和configLocation有一个即可，
+        当需要为实体类指定别名时，可指定configLocation属性，再在mybatis总配置文件中采用mapper引入实体类映射文件 -->
+        <!--<property name="configLocation" value="classpath:DataSources/DataSource*.xml"></property>-->
+                   <property name="mapperLocations" value="classpath:sqlMapper/*/*.xml" />
     </bean>
--->
-    <!--
-    <bean id="restServer" class="com.qyer.javaapi.rest.service.TestResource" >
-        <property name="" ref=""/>
-    </bean>
-    -->
 
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.qyer.javaapi.rest.dao" />
+    </bean>
 </beans>

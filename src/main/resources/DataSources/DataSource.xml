@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+         http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        ">
+
+
+    <!-- mysql db source  user info-->
+    <bean id="dataSourceUser" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" lazy-init="false">
+        <property name="url" value="${test1jdbc.url}" />
+        <property name="username" value="${test1jdbc.userName}" />
+        <property name="password" value="${test1jdbc.password}" />
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="1" />
+        <property name="minIdle" value="1" />
+        <property name="maxActive" value="20" />
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="30000" />
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="20000" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+        <property name="validationQuery" value="SELECT 'x'" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 分表及分库较多 mysql 建议false-->
+        <property name="poolPreparedStatements" value="false" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat" />
+        <!--最长连接时间，如果链接持续超过这个时间将强制关闭-->
+        <property name="removeAbandoned" value="true" />
+        <property name="removeAbandonedTimeout" value="1800" />
+    </bean>
+
+    <!--<bean id="sqlSessionFactoryUser" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSourceUser" />-->
+        <!--&lt;!&ndash;<property name="configLocation" value="classpath:mybatis.xml" />&ndash;&gt;-->
+        <!--&lt;!&ndash; Mapper文件存放的位置，当Mapper文件跟对应的Mapper接口处于同一位置的时候可以不用指定该属性的值 &ndash;&gt;-->
+        <!--<property name="mapperLocations" value="classpath:sqlMapper/Master/userMapper.xml" />-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash;&lt;!&ndash;单个 mapper &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<bean id="user" class="org.mybatis.spring.mapper.MapperFactoryBean">&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="mapperInterface" value="com.qyer.javaapi.rest.dao.Person" />&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="sqlSessionFactory" value="sqlSessionFactoryUser" />&ndash;&gt;-->
+    <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+
+    <!--&lt;!&ndash; 多个 mapper  &ndash;&gt;-->
+    <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+        <!--<property name="annotationClass" value="org.springframework.stereotype.Repository" />-->
+
+        <!--<property name="basePackage" value="com.qyer.javaapi.rest.dao" />-->
+        <!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryUser" />-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 事务管理 &ndash;&gt;-->
+    <!--<bean id="transactionManagerUser" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+        <!--<property name="dataSource" ref="dataSourceUser" />-->
+    <!--</bean>-->
+    <!--<tx:annotation-driven transaction-manager="transactionManagerUser" />-->
+
+    <!--&lt;!&ndash; 事务的传播特性 &ndash;&gt;-->
+    <!--<tx:advice id="txadvice" transaction-manager="transactionManagerUser">-->
+        <!--<tx:attributes>-->
+            <!--<tx:method name="add*" propagation="REQUIRED"/>-->
+            <!--<tx:method name="get*" propagation="REQUIRED" />-->
+            <!--&lt;!&ndash;hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到 &ndash;&gt;-->
+            <!--<tx:method name="*" propagation="REQUIRED" read-only="true" />-->
+        <!--</tx:attributes>-->
+    <!--</tx:advice>-->
+
+    <!--&lt;!&ndash; 那些类那些方法使用事务 &ndash;&gt;-->
+    <!--<aop:config>-->
+        <!--&lt;!&ndash; 只对业务逻辑层实施事务 &ndash;&gt;-->
+        <!--&lt;!&ndash;-->
+        <!--<aop:pointcut id="allManagerMethod"-->
+                      <!--expression="execution(* com.qyer.javaapi.rest.service.*.*.*(..))" />-->
+        <!--<aop:advisor pointcut-ref="allManagerMethod" advice-ref="txadvice" />-->
+        <!--&ndash;&gt;-->
+    <!--</aop:config>-->
+
+</beans>

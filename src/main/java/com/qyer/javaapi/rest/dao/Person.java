@@ -15,20 +15,15 @@ import java.util.List;
 @Repository
 public interface Person {
 
-     List<User> getPersons();
+     String getInfoById(Integer id);//一并获取关联表字段信息，例如城市详情
     /**
-     * Returns a podcast given its id
-     *
      * @param id
      * @return
      */
-    public User getPersonById(Integer id);
-    public User getPersonByAccount(String tel);
-
-    public Integer deletePersonById(Integer id);
-
-    public Integer createPerson(User user);
-
-    public Integer updatePerson(User user);
+    User getPersonById(Integer id);
+    User getPersonByAccount(String tel);
+    Integer deletePersonById(Integer id);
+    Integer createPerson(User user);
+    Integer updatePerson(User user);
 
 }

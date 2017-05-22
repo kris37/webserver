@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.qyer.javaapi.rest.dao.Location" >
+
+    <!--User 的match 左边是sql中的列,右边是参数-->
+    <resultMap id="cityMatch" type="com.qyer.javaapi.rest.entity.City" >
+        <id column="id" property="ID"  />
+        <result column="country" property="country" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+    </resultMap>
+
+
+    <!--get-->
+    <select id="getCityById" resultType="com.qyer.javaapi.rest.entity.City" parameterType="java.lang.Integer">
+        select * from city where id = #{id}
+    </select>
+    <select id="getCityByName" resultType="com.qyer.javaapi.rest.entity.City" parameterType="java.lang.String">
+        select * from city where city = #{city}
+    </select>
+
+    <!--insert-->
+    <insert id="createCity" parameterType="com.qyer.javaapi.rest.entity.City" useGeneratedKeys="true">
+        insert into city(country,province,city) values(#{country},#{province},#{city})
+    </insert>
+
+    <!--update-->
+    <update id="updateCity" parameterType="com.qyer.javaapi.rest.entity.City">
+        UPDATE
+        city
+        SET
+        id = #{id}
+        <if test="country != null">
+            ,country = #{country}
+        </if>
+        <if test="city != null">
+            ,city = #{city}
+        </if>
+        WHERE
+        id = #{id}
+    </update>
+</mapper>

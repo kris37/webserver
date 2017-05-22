@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.qyer.javaapi.rest.dao.Person" >
+
+    <!--User 的match 左边是sql中的列,右边是参数-->
+    <resultMap id="userMatch" type="com.qyer.javaapi.rest.entity.User" >
+        <id column="id" property="ID"/>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="city" property="cityId"/>
+    </resultMap>
+
+    <!--Person的实体类User（但是不需要实现Person）-->
+    <!--get-->
+    <select id="getPersonById" resultType="com.qyer.javaapi.rest.entity.User" parameterType="java.lang.Integer" resultMap="userMatch">
+        select * from user where id = #{ID}
+    </select>
+    <select id="getPersonByAccount" resultType="com.qyer.javaapi.rest.entity.User" parameterType="java.lang.String" resultMap="userMatch">
+        select * from user where account = #{account}
+    </select>
+
+
+
+    <!--insert-->
+    <insert id="createPerson" parameterType="com.qyer.javaapi.rest.entity.User" useGeneratedKeys="true" >
+        insert into user(account, name) values(#{account},#{name})
+    </insert>
+
+    <!--update-->
+    <update id="updatePerson" parameterType="com.qyer.javaapi.rest.entity.User" >
+        UPDATE
+        user
+        SET
+        <if test="account != null">
+            account = #{account}
+        </if>
+        <if test="name != null">
+            ,name = #{name}
+        </if>
+        <if test="cityId != null">
+          ,city=#{cityId}
+        </if>
+        WHERE
+        id= #{ID}
+    </update>
+
+    <!--union Sql with city-->
+
+    <!--<select id="getInfoById" resultType="com.qyer.javaapi.rest.entity.User" parameterType="java.lang.Integer" resultMap="userMatch">-->
+        <!--select * from user where ID = #{id}-->
+    <!--</select>-->
+</mapper>

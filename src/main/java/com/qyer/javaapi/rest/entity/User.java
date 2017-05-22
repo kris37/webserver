@@ -5,13 +5,12 @@ package com.qyer.javaapi.rest.entity;
  */
 
 
-import org.springframework.stereotype.Service;
-
 import java.io.Serializable;
 
 
 
 public class User implements Serializable {
+
 
 
     /*
@@ -50,11 +49,12 @@ public class User implements Serializable {
     }
 
 */
-    private static final long serialVersionUID = -8039625376076337053L;
+
+    private static final long serialVersionUID = -6826317204174601438L;
     private String account;
     private String name;
     private Integer ID;
-
+    private int cityId;
     public String getAccount() {
         return account;
     }
@@ -80,6 +80,13 @@ public class User implements Serializable {
     }
 
 
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
 
     @Override
     public String toString() {
@@ -87,7 +94,30 @@ public class User implements Serializable {
                 "account='" + account + '\'' +
                 ", name='" + name + '\'' +
                 ", ID=" + ID +
+                ", cityId=" + cityId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (cityId != user.cityId) return false;
+        if (!account.equals(user.account)) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        return ID.equals(user.ID);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = account.hashCode();
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + ID.hashCode();
+        result = 31 * result + cityId;
+        return result;
     }
 }
 
