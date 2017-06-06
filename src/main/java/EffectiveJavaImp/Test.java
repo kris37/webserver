@@ -1,7 +1,5 @@
 package EffectiveJavaImp;
 
-import EffectiveJavaImp.builderpackage.BuilderStruct;
-import EffectiveJavaImp.factorypackage.StaticFactorys;
 
 import java.text.SimpleDateFormat;
 

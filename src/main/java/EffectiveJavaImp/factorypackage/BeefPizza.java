@@ -7,11 +7,14 @@ import EffectiveJavaImp.factorypackage.MyInterface.Pizza;
  */
 public class BeefPizza implements Pizza {
 
-    public void echoName() {
+    public BeefPizza() {
+    }
 
+    public void echoName() {
+        System.out.println("beef pizza");
     }
 
     public String ingredients() {
-        return "beff and";
+        return "beef+flour+cheese.";
     }
 }

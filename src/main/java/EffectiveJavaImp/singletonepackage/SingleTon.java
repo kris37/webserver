@@ -9,7 +9,6 @@ import java.util.Properties;
 public enum SingleTon {
     SINGLE;
     private volatile Properties pros=new Properties();
-
     public  void init(){
         //reload properties
         if(!pros.isEmpty()) pros.clear();

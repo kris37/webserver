@@ -1,33 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.qyer.javaapi</groupId>
-  <artifactId>bigdata-api</artifactId>
-  <packaging>war</packaging>
+  <groupId>com.qyer.javapatterns</groupId>
+  <artifactId>effectivejava</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>bigdata-api Maven Webapp</name>
+  <name>java-patterns</name>
   <url>http://maven.apache.org</url>
 
-    <properties>
-        <jersey-spring.version>2.23.1</jersey-spring.version>
-        <spring.version>4.2.7.RELEASE</spring.version>
-        <servlet-api-version>3.1.0</servlet-api-version>
-        <logback.version>1.1.1</logback.version>
-        <jcloverslf4j.version>1.7.6</jcloverslf4j.version>
-    </properties>
-  <dependencies>
-
+<dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
       <scope>test</scope>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet -->
-    <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-servlet</artifactId>
-      <version>2.25.1</version>
     </dependency>
       <dependency>
           <groupId>org.codehaus.jackson</groupId>
@@ -35,7 +20,46 @@
           <version>1.9.13</version>
       </dependency>
   </dependencies>
-  <build>
-    <finalName>bigdata-api</finalName>
-  </build>
+    <build>
+        <finalName>effectiveJava</finalName>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>resources</directory>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <!-- execution元素包含了插件执行需要的信息 -->
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <version>3.3</version>
+                            <configuration>
+                                <source>1.8</source>
+                                <target>1.8</target>
+                                <useIncrementalCompilation>false</useIncrementalCompilation>
+                            </configuration>
+                        </plugin>
+
+        </plugins>
+    </build>
 </project>
